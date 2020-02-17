@@ -1,2 +1,2 @@
 # CSE-442-Project
-A game for 442: “Dumpster Dodge”
+A webapp for 442: “Uber but for snowplows”
