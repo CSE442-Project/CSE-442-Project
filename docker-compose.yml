@@ -1,0 +1,66 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    image: postgres:11.5-alpine
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    restart: always
+    expose:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=sfdbw5y346hm8keyn23
+      - POSTGRES_DB=postgres
+  logic:
+    container_name: logic
+    build: ./logic
+    restart: always
+    volumes:
+      - ./logic:/code:Z
+      - media_volume:/code/media
+      - static_volume:/code/static
+    ports:
+      - "8888:8000"
+    environment:
+      - HOST_NAME = None
+      - SQL_DATABASE=postgres
+      - SQL_USER=postgres
+      - SQL_PASSWORD=sfdbw5y346hm8keyn23
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - WORKERS=2
+      - DEV_MODE=DEVELOPMENT
+      - DJANGO_KEY=7gsms5b*21rinm4)hdm#7q4!xuo#zrirple8_a@c2=kt97%&nk
+    depends_on:
+      - db
+      - webpack
+
+  webpack:
+    container_name: webpack
+    build: ./webpack
+    restart: always
+    volumes:
+      - ./webpack:/code:Z
+    expose:
+      - 3123
+    ports:
+      - "3123:3123"
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    restart: always
+    network_mode: "host"
+    volumes:
+      - media_volume:/code/media
+      - static_volume:/code/static
+    ports:
+      - "1337:80"
+    depends_on:
+      - logic
+
+volumes:
+  db_data:
+  media_volume:
+  static_volume:
