@@ -4,12 +4,12 @@ from . import views
 
 
 def create_client(request):
-    pass
+    return render(request, 'accounts/create_client.html')
 
 
 def create_contractor(request):
-    pass
+    return render(request, 'accounts/create_contractor.html')
 
 
 def create_verification(request):
-    pass
+    return render(request, 'accounts/create_verification.html')
