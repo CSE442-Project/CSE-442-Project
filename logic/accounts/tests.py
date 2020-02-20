@@ -21,3 +21,10 @@ class CreateContractorTest(TestCase):
     def test_create_contractor_resolves_to_create_contractor_view(self):
         found = resolve('/accounts/create/contractor/')
         self.assertEqual(views.create_contractor, found.func)
+
+
+class CreateVerification(TestCase):
+
+    def test_create_verification_resolves_to_create_verification(self):
+        found = resolve('/accounts/create/verification/')
+        self.assertEqual(views.create_verification, found.func)
