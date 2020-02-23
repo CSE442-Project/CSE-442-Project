@@ -7,4 +7,4 @@ if settings.DEBUG:
     host = '127.0.0.1'
 
 def index(request):
-    return render(request, 'logic/index.html')
+    return render(request, 'react/react.html')
