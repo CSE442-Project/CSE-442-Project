@@ -4,7 +4,7 @@ module.exports = {
 	context: __dirname,
 	mode: "development",
 	entry: {
-		main: "./files/sample.js"
+		index: "./files/logic/js/index.js"
 	},
 	output: {
 		path: path.resolve("./bundles"),
