@@ -13,7 +13,9 @@ class BasePage(object):
 class IndexPage(BasePage):
 
     def click_create_client_account_button(self):
-        pass
+        button = self.driver.find_element_by_id('create_client_account_button')
+        button.click()
 
     def click_create_contractor_account_button(self):
-        pass
+        button = self.driver.find_element_by_id('create_contractor_account_button')
+        button.click()
