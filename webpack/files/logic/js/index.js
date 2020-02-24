@@ -9,9 +9,11 @@ ReactDOM.render(
       <h1>Welcome to Plow Me!</h1>
       <Button
         id="create_client_account_button"
+        href="/accounts/create/client/"
         variant="primary">Create Client Account</Button>
       <Button
         id="create_contractor_account_button"
+        href="/accounts/create/contractor/"
         variant="primary">Create Contractor Account</Button>
     </div>
   ), document.getElementById("container")

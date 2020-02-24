@@ -36,3 +36,6 @@ class IndexTest(unittest.TestCase):
         index_page = pages.IndexPage(self.browser)
         index_page.click_create_contractor_account_button()
         self.assertEqual(self.browser.current_url, 'http://127.0.0.1/accounts/create/contractor/')
+
+    def tearDown(self):
+        self.browser.quit()
