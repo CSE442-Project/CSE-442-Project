@@ -1,6 +1,7 @@
-<!doctype html>	
+<!DOCTYPE html>	
 <html>
     <head>
+        <link href="logic/accounts/templates/accounts/style.css" rel="stylesheet" type="text/css">
         <title>Uber but for snowplows</title>
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
@@ -35,13 +36,16 @@
           </style>        
     </head>    
     <body>
+      <Center><h1>Uber For Snowplows</h1></Center>
+
       <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <!-- <a href="#Login">Login</a> -->
+        <a class="active" href="/">Home</a>
+        <a class="hover" href="/accounts/create/client">Create User</a>
+        <a class="hover" href="/accounts/create/client">Create Contractor</a>
       </div>
       
       
-      
+      <div class="inputbox">
         <div id="latclicked"></div>
         <div id="longclicked"></div>
         
@@ -121,5 +125,6 @@
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
         async defer></script>
+      </div>
     </body>    
 </html>
