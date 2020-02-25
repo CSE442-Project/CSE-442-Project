@@ -33,6 +33,14 @@
             background-color: #4CAF50;
             color: white;
           }
+          table, th, td {
+           border: 1px solid black;
+           border-collapse: collapse;
+          }
+          th, td {
+            padding: 5px;
+            text-align: left;
+          }
           </style>        
     </head>    
     <body>
@@ -55,6 +63,29 @@
         <div style="padding:10px">
             <div id="map"></div>
         </div>
+        <table>
+          
+          <tr>
+            <th>Contractor Name:</th>
+            <td>John Smith</td>
+          </tr>
+          <tr>
+            <th>Contractor Vehicle Type:</th>
+            <td>Tesla Truck</td>
+          </tr>
+          <tr>
+            <th>Contractor Vehicle Color:</th>
+            <td>Steel</td>
+          </tr>
+          <tr>
+            <th>Contractor Vehicle Licence Number:</th>
+            <td>557-7855</td>
+          </tr>
+          <tr>
+            <th>Contractor Estimated Arrival:</th>
+            <td>17 Minutes</td>
+          </tr>
+        </table>
         
         <script type="text/javascript">
         var map;
