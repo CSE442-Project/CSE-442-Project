@@ -1,5 +1,34 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <link href="/static/accounts/css/style.css" rel="stylesheet" type="text/css">
+    <title>Create Contractor</title>
+  </head>
   <body>
-    <h1>Create a New Contractor Account</h1>
+    <Center><h1>Create a New Contractor Account</h1></Center>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a class="hover" href="/accounts/create/client/">Create User</a>
+    </div>
+    <Center>
+      <div class="inputbox">
+        <h3>Enter your choice of a username:</h3><input>
+        <h3>Enter your first name:</h3><input>
+        <h3>Enter your last name:</h3><input>
+        <h3>Enter the payment method you will be using:</h3><input>
+        <h3>Enter your choice of a password:</h3><input>
+        <h3>Enter your Email:</h3><input>
+        <h3>Enter your phone number:</h3><input>
+        <h3>Enter the following information about the vehicle your will be using:</h3>
+        <div class="sublist">
+          <h4>Car color:</h4><input>
+          <h4>Plate number:</h4><input>
+          <h4>Make:</h4><input>
+          <h4>Model:</h4><input>
+          <h4>Year:</h4><input>
+        </div><br/>
+        <button onclick="javascript:window.location.href='/accounts/create/verification/'">Submit</button>
+      </div>
+    </Center>
   </body>
 </html>

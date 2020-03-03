@@ -1,6 +1,7 @@
-<!doctype html>	
+<!DOCTYPE html>	
 <html>
     <head>
+        <link href="logic/accounts/templates/accounts/style.css" rel="stylesheet" type="text/css">
         <title>Uber but for snowplows</title>
         <meta name="viewport" content="initial-scale=1.0">
         <meta charset="utf-8">
@@ -32,16 +33,27 @@
             background-color: #4CAF50;
             color: white;
           }
+          table, th, td {
+           border: 1px solid black;
+           border-collapse: collapse;
+          }
+          th, td {
+            padding: 5px;
+            text-align: left;
+          }
           </style>        
     </head>    
     <body>
+      <Center><h1>Uber For Snowplows</h1></Center>
+
       <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <!-- <a href="#Login">Login</a> -->
+        <a class="active" href="/">Home</a>
+        <a class="hover" href="/accounts/create/client">Create User</a>
+        <a class="hover" href="/accounts/create/client">Create Contractor</a>
       </div>
       
       
-      
+      <div class="inputbox">
         <div id="latclicked"></div>
         <div id="longclicked"></div>
         
@@ -51,6 +63,29 @@
         <div style="padding:10px">
             <div id="map"></div>
         </div>
+        <table>
+          
+          <tr>
+            <th>Contractor Name:</th>
+            <td>John Smith</td>
+          </tr>
+          <tr>
+            <th>Contractor Vehicle Type:</th>
+            <td>Tesla Truck</td>
+          </tr>
+          <tr>
+            <th>Contractor Vehicle Color:</th>
+            <td>Steel</td>
+          </tr>
+          <tr>
+            <th>Contractor Vehicle Licence Number:</th>
+            <td>557-7855</td>
+          </tr>
+          <tr>
+            <th>Contractor Estimated Arrival:</th>
+            <td>17 Minutes</td>
+          </tr>
+        </table>
         
         <script type="text/javascript">
         var map;
@@ -121,5 +156,6 @@
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
         async defer></script>
+      </div>
     </body>    
 </html>
