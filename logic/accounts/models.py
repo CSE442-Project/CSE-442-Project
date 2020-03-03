@@ -8,7 +8,7 @@ class ContractorProfile(models.Model):
         on_delete=models.CASCADE,
         related_name='contractor_profile'
     )
-    phone = models.IntegerField()
+    phone = models.BigIntegerField()
 
     def __str__(self):
         return self.user.username
@@ -53,7 +53,7 @@ class ClientProfile(models.Model):
         on_delete=models.CASCADE,
         related_name='client_profiles'
     )
-    phone = models.IntegerField()
+    phone = models.BigIntegerField()
     dw_size = models.IntegerField()
 
     def __str__(self):
