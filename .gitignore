@@ -4,5 +4,4 @@
 *.pyc
 *.save
 */env/
-*/node_modules/
 */migrations/
