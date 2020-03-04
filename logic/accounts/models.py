@@ -32,8 +32,8 @@ class ContractorVehicle(models.Model):
 
 class Address(models.Model):
     street_1 = models.CharField(max_length=100)
-    street_2 = models.CharField(max_length=100)
-    street_3 = models.CharField(max_length=100)
+    street_2 = models.CharField(max_length=100, blank=True, default='')
+    street_3 = models.CharField(max_length=100, blank=True, default='')
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=50)
     zip = models.IntegerField()

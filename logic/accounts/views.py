@@ -6,7 +6,14 @@ from django.forms import inlineformset_factory
 
 
 def create_client(request):
-    return render(request, 'accounts/create_client.html')
+    if request.method == 'POST':
+        form = forms.ClientCreationForm(request.POST)
+        if form.is_valid():
+            form.create_client()
+            return HttpResponseRedirect('/accounts/create/verification/')
+    else:
+        form = forms.ClientCreationForm()
+    return render(request, 'accounts/create_client.html', {'form': form})
 
 
 def create_contractor(request):
