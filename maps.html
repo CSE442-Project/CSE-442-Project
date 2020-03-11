@@ -44,6 +44,7 @@
           </style>        
     </head>    
     <body>
+
       <Center><h1>Uber For Snowplows</h1></Center>
 
       <div class="topnav">
@@ -63,29 +64,53 @@
         <div style="padding:10px">
             <div id="map"></div>
         </div>
-        <table>
-          
-          <tr>
+        <?php
+$servername = "host";
+$username = "user";
+$password = "1";
+$dbname = "contractors";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT id, name, carType, carColor, licenceNumber FROM contractor";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+   
+        <tr>
             <th>Contractor Name:</th>
-            <td>John Smith</td>
+            <td>?php echo $row['name']</td>
           </tr>
           <tr>
             <th>Contractor Vehicle Type:</th>
-            <td>Tesla Truck</td>
+            <td>?php echo $row['carType']</td>
           </tr>
           <tr>
             <th>Contractor Vehicle Color:</th>
-            <td>Steel</td>
+            <td>?php echo $row['carColor']</td>
           </tr>
           <tr>
             <th>Contractor Vehicle Licence Number:</th>
-            <td>557-7855</td>
+            <td>?php echo $row['licenceNumber']</td>
           </tr>
           <tr>
             <th>Contractor Estimated Arrival:</th>
             <td>17 Minutes</td>
-          </tr>
-        </table>
+          
+    </tr>
+    }
+} else {
+    echo "0 results";
+}
+
+$conn->close();
+?>
         
         <script type="text/javascript">
         var map;
