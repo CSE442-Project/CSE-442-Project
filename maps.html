@@ -64,6 +64,7 @@
         </div>
 
         <div>
+        <!-- PHP code for getting 5 closest contractors
         <?php
           $servername = "host";
           $user = "user";
@@ -122,6 +123,12 @@
 
           $conn->close();
         ?>
+        -->
+        <form class="closest_contractors" method="get">
+          <h2>Closest Contractors</h2>
+          {% csrf_token %}
+          {{ model }}
+        </form>
         <table >
           <tr>
             <th>Contractor Name:</th>
