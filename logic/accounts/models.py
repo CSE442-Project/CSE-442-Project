@@ -9,6 +9,9 @@ class ContractorProfile(models.Model):
         related_name='contractor_profile'
     )
     phone = models.BigIntegerField()
+    # Added by dorianmc99 for finding close contractors.
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=50)
 
     def __str__(self):
         return self.user.username
