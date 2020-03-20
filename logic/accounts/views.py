@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 import os
-from . import views, forms
+from . import views, forms, models
 from django.forms import inlineformset_factory
 
 
@@ -29,3 +29,15 @@ def create_contractor(request):
 
 def create_verification(request):
     return render(request, 'accounts/create_verification.html')
+
+
+def get_contractor(request):
+    if request.method == 'GET':
+        model = models.ContractorProfile(request.GET)
+        count = 0;
+        conts = "Names: "
+        while model.is_valid() and count < 5:
+            conts = conts + " | " + (model.__str__())
+        return conts
+    else :
+        return "Sorry there are no contractors"
