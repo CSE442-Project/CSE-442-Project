@@ -12,6 +12,7 @@ class ContractorProfile(models.Model):
     # Added by dorianmc99 for finding close contractors.
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=50)
+    zip = models.IntegerField()   
 
     def __str__(self):
         return self.user.username
