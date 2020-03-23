@@ -1,5 +1,5 @@
 from django import forms
-from . import models, queries
+from . import models
 from django.contrib.auth.models import User
 
 
@@ -121,6 +121,3 @@ class ContractorCreationForm(forms.Form):
         super(ContractorCreationForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'input-field'
-
-#class ReturnClosestContractors(forms.Form):
-#    return queries.printContractors()

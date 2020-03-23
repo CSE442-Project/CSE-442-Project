@@ -51,7 +51,7 @@
         <a class="hover" href="/accounts/create/client">Create Contractor</a>
       </div>
       
-      
+      <Center>
       <div class="inputbox">
         <div id="latclicked"></div>
         <div id="longclicked"></div>
@@ -64,14 +64,20 @@
         </div>
 
         <div>
-        <!--Apply find close contractors here-->
-        <form class="" method="get">
-          <h2>Closest Contractors</h2>
-           {% csrf_token %}
-           {{ form }}
-        </form>
+         <!--========Apply find close contractors here========-->
+          <form>
+            <h2>Closest Contractors</h2>
+            {{% if len(form) == 0 %}}
+            <h3>Sorry, there are no contractors in your area</h3>
+            {{% else %}}
+              {{% for c in form %}}
+              <h3>{{ c }}</h3>
+              {{% endfor %}}
+            {{% endif %}}
 
-        <table >
+          </form>
+          <!--=================================================-->
+<!--        <table >
           <tr>
             <th>Contractor Name:</th>
             <td>John Smith</td>
@@ -93,8 +99,9 @@
             <td>17 Minutes</td>
           </tr>
         </table>
+-->
         </div>
-
+      </Center>
         <script type="text/javascript">
         var map;
         

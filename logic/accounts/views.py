@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 import os
-from . import views, forms, models
+from . import views, forms, models, queries
 from django.forms import inlineformset_factory
 
 
@@ -30,6 +30,6 @@ def create_contractor(request):
 def create_verification(request):
     return render(request, 'accounts/create_verification.html')
 
-#def returnContractors(request):
-#    form = forms.ReturnClosestContractors()
-#    return render(request, '/', {'form' : form})
+def returnContractors(request):
+    form = queries.getClosestContractors()
+    return render(request, '/', {'form' : form})
