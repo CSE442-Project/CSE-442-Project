@@ -65,8 +65,10 @@
 
         <div>
         <!--Apply find close contractors here-->
-        <form>
-
+        <form class="" method="get">
+          <h2>Closest Contractors</h2>
+           {% csrf_token %}
+           {{ form }}
         </form>
 
         <table >

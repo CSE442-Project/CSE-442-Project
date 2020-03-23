@@ -29,3 +29,7 @@ def create_contractor(request):
 
 def create_verification(request):
     return render(request, 'accounts/create_verification.html')
+
+#def returnContractors(request):
+#    form = forms.ReturnClosestContractors()
+#    return render(request, '/', {'form' : form})

@@ -1,4 +1,5 @@
-from accounts.models import ContractorProfile, Address
+from . import models
+from models import ContractorProfile, Address
 
 def getClosestContractors():
     address = Address.objects.get(pk=1).values('zip')
