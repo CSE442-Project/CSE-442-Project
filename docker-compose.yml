@@ -23,7 +23,7 @@ services:
     ports:
       - "8888:8000"
     environment:
-      - HOST_NAME = None
+      - HOST_NAME=None
       - SQL_DATABASE=postgres
       - SQL_USER=postgres
       - SQL_PASSWORD=sfdbw5y346hm8keyn23
