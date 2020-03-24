@@ -4,7 +4,6 @@ import os
 from . import views, forms, models, queries
 from django.forms import inlineformset_factory
 
-
 def create_client(request):
     if request.method == 'POST':
         form = forms.ClientCreationForm(request.POST)

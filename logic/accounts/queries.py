@@ -1,5 +1,4 @@
 from . import models
-from models import ContractorProfile, Address
 
 def getClosestContractors():
     address = Address.objects.get(pk=1).values('zip')
@@ -7,9 +6,9 @@ def getClosestContractors():
     output = []
     count = 0
     for e in contractors:
-        if e["zip"] == address["zip"] && count < 5:
+        if e["zip"] == address["zip"] and count < 5:
             output.append(e)
-            count++
+            count = count + 1
     return output
 
 def printContractors():
