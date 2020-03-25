@@ -9,6 +9,7 @@ from . import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^orders/', include('orders.urls')),
     url(r'^$', views.index),
 ]
 

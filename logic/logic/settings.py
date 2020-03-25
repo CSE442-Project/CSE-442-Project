@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
 	'rest_framework',
 	'corsheaders',
-	'accounts'
+	'accounts',
+	'orders',
 ]
 
 MIDDLEWARE = [
