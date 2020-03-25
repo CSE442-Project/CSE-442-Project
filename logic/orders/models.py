@@ -8,7 +8,6 @@ class Order(models.Model):
         ('S', 'scheduled'),
         ('F', 'finished'),
         ('C', 'canceled'),
-        ('I', 'incompete'),
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='U')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -25,3 +24,4 @@ class Order(models.Model):
         on_delete=models.PROTECT,
         related_name='orders'
     )
+    comment = models.TextField()
