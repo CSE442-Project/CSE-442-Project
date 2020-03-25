@@ -11,7 +11,7 @@ class Order(models.Model):
     )
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='U')
     created_at = models.DateTimeField(auto_now_add=True)
-    schedule_time = models.DateTimeField(auto_now_add=True)
+    schedule_time = models.DateTimeField(blank=True, null=True)
     contractor = models.ForeignKey(
         ContractorProfile,
         on_delete=models.PROTECT,
@@ -24,4 +24,4 @@ class Order(models.Model):
         on_delete=models.PROTECT,
         related_name='orders'
     )
-    comment = models.TextField()
+    comment = models.TextField(blank=True, null=True)

@@ -4,7 +4,7 @@ from . import models
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    client = serializer.ReadOnlyField(source='client.user.username')
+    client = serializers.ReadOnlyField(source='client.user.username')
 
     class Meta:
         model = models.Order

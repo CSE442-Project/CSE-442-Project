@@ -18,14 +18,26 @@ def _get_forbidden_response():
 @api_view(['POST'])
 @permission_classes([perms.IsClient])
 def create_order(request):
-    pass
+    client_profile = request.user.client_profile
+    serializer = serializers.OrderSerializer(data=request.POST)
+    if serializer.is_valid():
+        serializer.save(client=client_profile)
+        return Response(serializer.data)
+    else:
+        return Response(serializer.errors)
 
 
 
 @api_view(['GET'])
 @permission_classes([perms.IsClient])
 def cancel_order(request, id):
-    pass
+    client_profile = request.user.client_profile
+    order = models.Order.objects.get(pk=id)
+    if order.client != client_profile:
+        return _get_forbidden_response()
+    order.status = 'C'
+    order.save()
+    return response
 
 
 
@@ -44,14 +56,14 @@ def accept_order(request, id):
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor])
+@permission_classes([IsAuthenticated])
 def unclaimed_orders(request):
     pass
 
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor])
+@permission_classes([IsAuthenticated])
 def scheduled_orders(request):
     pass
 
@@ -59,7 +71,7 @@ def scheduled_orders(request):
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor])
+@permission_classes([IsAuthenticated])
 def finished_orders(request):
     pass
 
@@ -67,13 +79,13 @@ def finished_orders(request):
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor])
+@permission_classes([IsAuthenticated])
 def canceled_orders(request):
     pass
 
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor])
+@permission_classes([IsAuthenticated])
 def my_orders(request):
     pass
