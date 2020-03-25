@@ -29,3 +29,7 @@ def create_contractor(request):
 
 def create_verification(request):
     return render(request, 'accounts/create_verification.html')
+
+
+def client_dashboard(request):
+    return render(request, 'accounts/client_dash.html')
