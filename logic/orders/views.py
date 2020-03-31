@@ -9,7 +9,7 @@ from django.db.models import Q
 
 
 def _get_forbidden_response():
-    response = Response({'error': 'You are not authorized to access this content'})
+    response = Response({'message': 'You are not authorized to access this content'})
     response.status_code = 403
     return response
 
@@ -32,6 +32,9 @@ def cancel_order(request, id):
     order = models.Order.objects.get(pk=id)
     if order.client != request.user:
         return _get_forbidden_response()
+    if order.status != 'U':
+        response = Response({'message': 'Only Unclaimed Order can be canceled.'})
+        response.status_code = 406
     order.status = 'C'
     order.save()
     serializer = serializers.OrderSerializer(order, context={'request': request})
@@ -45,7 +48,16 @@ def finish_order(request, id):
     '''Provide the id of the Order to mark it as Finished. Only the contractor
     that accepted the Order can finish the Order. The Order must be in the Scheduled
     state.'''
-    pass
+    order = models.Order.objects.get(pk=id)
+    if order.contractor != request.user:
+        return _get_forbidden_response()
+    if order.status != 'S':
+        response = Response({'message': 'Only Scheduled Order can be Finished.'})
+        response.status_code = 406
+    order.status= 'F'
+    order.save()
+    serializer = serializers.OrderSerializer(order, context={'request': request})
+    return Response(serializer.data)
 
 
 
@@ -54,42 +66,78 @@ def finish_order(request, id):
 def accept_order(request, id):
     '''Provide the id of the Order to mark it as mark it as Scheduled. Only
     Contractors can accept Order, and the Order must be in the Unclaimed state.'''
-    pass
+    order = models.Order.objects.get(pk=id)
+    if order.contractor != None:
+        return _get_forbidden_response()
+    if order.status != 'U':
+        response = Response({'message': 'Only Unclaimed Order can be accepted.'})
+        response.status_code = 406
+    order.status = 'S'
+    order.contractor = request.user
+    order.save()
+    serializer = serializers.OrderSerializer(order, context={'request': request})
+    return Response(serializer.data)
 
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([perms.IsClient | perms.IsContractor])
 def unclaimed_orders(request):
-    ''''''
-    pass
-
+    '''If the User is a client, return a list of all the Order belonging to the
+    client that are Unclaimed in status. If the User is a Contractor, return
+    all of the Unclaimed Orders that are available for the contractor to accept'''
+    if perms.IsClient().has_permission(request, None):
+        orders = models.Order.objects.filter(client=request.user).filter(status='U').order_by('created_at')
+    elif perms.IsContractor().has_permission(request, None):
+        orders = models.Order.objects.filter(status='U').order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([perms.IsClient | perms.IsContractor])
 def scheduled_orders(request):
-    pass
-
-
+    '''Return the list of all the Scheduled Orders that the user is attached to
+    as either a client or a contractor.'''
+    if perms.IsClient().has_permission(request, None):
+        orders = models.Order.objects.filter(client=request.user).filter(status='S').order_by('created_at')
+    elif perms.IsContractor().has_permission(request, None):
+        orders = models.Order.objects.filter(contractor=request.user).filter(status='S').order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([perms.IsClient | perms.IsContractor])
 def finished_orders(request):
-    pass
-
+    '''Return the list of all the Finished Orders that the user is attached to
+    as either a client or a contractor.'''
+    if perms.IsClient().has_permission(request, None):
+        orders = models.Order.objects.filter(client=request.user).filter(status='F').order_by('created_at')
+    elif perms.IsContractor().has_permission(request, None):
+        orders = models.Order.objects.filter(contractor=request.user).filter(status='F').order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)
 
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([perms.IsClient])
 def canceled_orders(request):
-    pass
-
+    '''Return a list of all the orders that a client has canceled'''
+    orders = models.Order.objects.filter(client=request.user).filter(status='C').order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([perms.IsClient | perms.IsContractor])
 def my_orders(request):
-    return Response({'message': 'My Orders'})
+    '''Return all of the Order regardless of status that the user is attached to
+    as either a client or a contractor'''
+    if perms.IsClient().has_permission(request, None):
+        orders = models.Order.objects.filter(client=request.user).order_by('created_at')
+    elif perms.IsContractor().has_permission(request, None):
+        orders = models.Order.objects.filter(contractor=request.user).order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)

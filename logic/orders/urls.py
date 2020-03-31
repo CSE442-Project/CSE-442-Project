@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^api/unclaimed/', views.unclaimed_orders),
     url(r'^api/scheduled/', views.scheduled_orders),
     url(r'^api/finished/', views.finished_orders),
-    url(r'^api/canceled/ ', views.canceled_orders),
+    url(r'^api/canceled/', views.canceled_orders),
     url(r'^api/', views.my_orders),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
