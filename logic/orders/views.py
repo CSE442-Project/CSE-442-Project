@@ -19,41 +19,28 @@ class CreateOrderViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = serializers.OrderSerializer
     queryset = models.Order.objects.none()
 
-    # def create(self, request, *args, **kwargs):
-    #     data = {
-    #         'status': 'U',
-    #         'client': request.user,
-    #     }
-    #     if 'comment' in request.data:
-    #         data['comment'] = request.data['comment']
-    #     serializer = self.get_serializer(data=data)
-    #     serializer.is_valid(raise_exception=True)
-    #     self.perform_create(serializer)
-    #     headers = self.get_success_headers(serializer.data)
-    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
     def perform_create(self, serializer):
         serializer.save(client=self.request.user)
 
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsClient | IsAdminUser])
+@permission_classes([perms.IsClient])
 def cancel_order(request, id):
     '''Provide the id an order to have it Canceled. Only the Client that submitted
     the Order can cancel it. The Order must be in the Unclaimed state.'''
-    client_profile = request.user.client_profile
     order = models.Order.objects.get(pk=id)
-    if order.client != client_profile:
+    if order.client != request.user:
         return _get_forbidden_response()
     order.status = 'C'
     order.save()
-    return response
+    serializer = serializers.OrderSerializer(order, context={'request': request})
+    return Response(serializer.data)
 
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor | IsAdminUser])
+@permission_classes([perms.IsContractor])
 def finish_order(request, id):
     '''Provide the id of the Order to mark it as Finished. Only the contractor
     that accepted the Order can finish the Order. The Order must be in the Scheduled
@@ -63,7 +50,7 @@ def finish_order(request, id):
 
 
 @api_view(['GET'])
-@permission_classes([perms.IsContractor | IsAdminUser])
+@permission_classes([perms.IsContractor])
 def accept_order(request, id):
     '''Provide the id of the Order to mark it as mark it as Scheduled. Only
     Contractors can accept Order, and the Order must be in the Unclaimed state.'''
@@ -105,4 +92,4 @@ def canceled_orders(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def my_orders(request):
-    pass
+    return Response({'message': 'My Orders'})
