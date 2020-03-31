@@ -5,6 +5,11 @@ from . import views, forms
 from django.forms import inlineformset_factory
 
 
+host = os.getenv('HOST_NAME', None)
+if settings.DEBUG:
+    host = '127.0.0.1'
+
+
 def create_client(request):
     if request.method == 'POST':
         form = forms.ClientCreationForm(request.POST)
@@ -33,3 +38,12 @@ def create_verification(request):
 
 def client_dashboard(request):
     return render(request, 'accounts/client_dash.html')
+
+
+def contractor_dashboard(request):
+    context = {
+        'title': 'Dashboard',
+        'script_src': f'http://{host}/static/bundles/contractor_dashboard.js',
+        'auth_redirect': f'http://{host}/accounts/login/?next=/accounts/contractor/dashboard/'
+    }
+    return render(request, 'react/react.html', context)
