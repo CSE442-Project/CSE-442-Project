@@ -1,9 +1,12 @@
 from django.conf.urls import include, url
+from rest_framework.routers import DefaultRouter
 from . import views
 
+router = DefaultRouter()
+router.register(r'', views.CreateOrderViewSet)
 
 urlpatterns = [
-    url(r'^api/create/', views.create_order),
+    url(r'^api/create/', include(router.urls)),
     url(r'^api/cancel/<int:id>/', views.cancel_order),
     url(r'^api/finish/<int:id>/', views.finish_order),
     url(r'^api/accept/<int:id>/', views.accept_order),

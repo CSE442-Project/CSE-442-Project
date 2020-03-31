@@ -1,5 +1,5 @@
 from django.db import models
-from accounts.models import ContractorProfile, ClientProfile
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Order(models.Model):
@@ -13,15 +13,15 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     schedule_time = models.DateTimeField(blank=True, null=True)
     contractor = models.ForeignKey(
-        ContractorProfile,
+        User,
         on_delete=models.PROTECT,
-        related_name='jobs',
+        related_name='contractor_jobs',
         blank=True,
         null=True
     )
     client = models.ForeignKey(
-        ClientProfile,
+        User,
         on_delete=models.PROTECT,
-        related_name='orders'
+        related_name='client_orders'
     )
     comment = models.TextField(blank=True, null=True)
