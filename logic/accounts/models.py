@@ -9,6 +9,7 @@ class ContractorProfile(models.Model):
         related_name='contractor_profile'
     )
     phone = models.BigIntegerField()
+    available = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username

@@ -1,6 +1,6 @@
 from django import forms
 from . import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class ClientCreationForm(forms.Form):
@@ -48,6 +48,8 @@ class ClientCreationForm(forms.Form):
             password=self.cleaned_data['password_1'],
         )
         user.save()
+        client_group = Group.objects.get_or_create(name='client')[0]
+        user.groups.add(client_group)
         return user
 
     def _create_address(self):
@@ -107,6 +109,8 @@ class ContractorCreationForm(forms.Form):
             password=self.cleaned_data['password_1'],
         )
         user.save()
+        contractor_group = Group.objects.get_or_create(name='contractor')[0]
+        user.groups.add(contractor_group)
         return user
 
     def create_contractor(self):
