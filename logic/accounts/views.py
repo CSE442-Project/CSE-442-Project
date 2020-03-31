@@ -1,14 +1,30 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
 import os
-from . import views
+from . import views, forms
+from django.forms import inlineformset_factory
 
 
 def create_client(request):
-    return render(request, 'accounts/create_client.html')
+    if request.method == 'POST':
+        form = forms.ClientCreationForm(request.POST)
+        if form.is_valid():
+            form.create_client()
+            return HttpResponseRedirect('/accounts/create/verification/')
+    else:
+        form = forms.ClientCreationForm()
+    return render(request, 'accounts/create_client.html', {'form': form})
 
 
 def create_contractor(request):
-    return render(request, 'accounts/create_contractor.html')
+    if request.method == 'POST':
+        form = forms.ContractorCreationForm(request.POST)
+        if form.is_valid():
+            form.create_contractor()
+            return HttpResponseRedirect('/accounts/create/verification/')
+    else:
+        form = forms.ContractorCreationForm()
+    return render(request, 'accounts/create_contractor.html', {'form': form})
 
 
 def create_verification(request):
