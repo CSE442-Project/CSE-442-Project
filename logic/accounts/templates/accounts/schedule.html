@@ -3,19 +3,17 @@
   <head>
     <link href="/static/shared/css/style.css" rel="stylesheet" type="text/css">
     <link href="/static/accounts/css/style.css" rel="stylesheet" type="text/css">
-    <title>Create Client</title>
+    <title>Schedule</title>
   </head>
   <body>
-    <Center><h1>Create a New Client Account</h1></Center>
+    <Center><h1>Schedule a plow</h1></Center>
     <div class="topnav">
       <a class="active" href="/">Home</a>
       <a class="hover" href="/accounts/create/contractor/">Create Contractor</a>
-      <a class="hover" href="/accounts/create/Schedule/">Schedule</a>
-
     </div>
     <Center>
       <form class="create_form" method="post">
-        <h2>Client Creation Form</h2>
+        <h2>Schedule a plow</h2>
         {% csrf_token %}
         {{ form }}
         <input class="form_submit" type="submit" value="Submit">

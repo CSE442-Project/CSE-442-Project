@@ -125,3 +125,6 @@ class ContractorCreationForm(forms.Form):
         super(ContractorCreationForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'input-field'
+
+class ScheduleForm(forms.Form):
+        username = forms.CharField(label='Enter username', max_length=50)

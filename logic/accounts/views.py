@@ -26,6 +26,15 @@ def create_contractor(request):
         form = forms.ContractorCreationForm()
     return render(request, 'accounts/create_contractor.html', {'form': form})
 
+def schedule(request):
+    if request.method == 'POST':
+        form = forms.ScheduleForm(request.POST)
+        if form.is_valid():
+            form.ScheduleForm()
+            return HttpResponseRedirect('/accounts/create/verification/')
+    else:
+        form = forms.ScheduleForm()
+    return render(request, 'accounts/schedule', {'form': form})
 
 def create_verification(request):
     return render(request, 'accounts/create_verification.html')
