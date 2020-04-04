@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^create/contractor/', views.create_contractor),
     url(r'^create/verification/', views.create_verification),
     url(r'^client/dashboard/', views.client_dashboard),
+    url(r'^contractor/dashboard/', views.contractor_dashboard),
 ]
