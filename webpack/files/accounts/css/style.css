@@ -1,0 +1,39 @@
+body {
+  background-color: #56788f !important;
+}
+
+.section {
+  width: 48.5%;
+  height: 45%;
+  padding: 1%;
+  background-color: #3e6885;
+  border-radius: 8px;
+  color: white;
+  overflow: auto;
+}
+
+.table th {
+  color: white;
+}
+
+.table tr {
+  color: #c0dbed;
+}
+
+#unclaimed-orders {
+  height: 91.5%;
+  float: left;
+  margin-left: 1%;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+#pending-orders {
+  float: right;
+  margin: 1%;
+}
+
+#order-history {
+  float: right;
+  margin-right: 1%;
+}

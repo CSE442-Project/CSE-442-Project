@@ -6,7 +6,7 @@ export default class ContractorOrderCard extends React.Component {
   render(){
     return (
       <tr>
-        <td>{this.props.price}</td>
+        <td>${this.props.price}</td>
         <td>{this.props.client}</td>
         <td>{this.props.address}</td>
         <td>{this.props.date}</td>

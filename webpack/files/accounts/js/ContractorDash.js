@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "../css/style.css";
 import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString } from "../../shared/js/Utils";
+import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
 
 import ContractorOrdersList from "./components/ContractorOrdersList";
@@ -31,7 +32,6 @@ export default class ContractorDash extends React.Component {
     var xhr = new XMLHttpRequest()
     asyncGet(xhr, '/orders/api/accept/' + id + "/", function(){
       if(checkForErrors(xhr)){
-        alert("Order has been accepted.");
         this.getOrders();
       }
     }.bind(this));
@@ -42,7 +42,6 @@ export default class ContractorDash extends React.Component {
     var xhr = new XMLHttpRequest()
     asyncGet(xhr, '/orders/api/finish/' + id + "/", function(){
       if(checkForErrors(xhr)){
-        alert("Order has been finished.");
         this.getOrders();
       }
     }.bind(this));
@@ -54,12 +53,12 @@ export default class ContractorDash extends React.Component {
       const onAcceptClick = function(){
         this.acceptOrder(order.id);
       }.bind(this);
-      return <Button variant="primary" onClick={onAcceptClick}>Accept</Button>;
+      return <Button variant="outline-primary" onClick={onAcceptClick}>Accept</Button>;
     }else if(order.status == "S"){
       const onFinishClick = function(){
         this.finishOrder(order.id);
       }.bind(this);
-      return <Button variant="primary" onClick={onFinishClick}>Finish</Button>
+      return <Button variant="outline-success" onClick={onFinishClick}>Finish</Button>
     }
     return null;
   }
@@ -144,22 +143,23 @@ export default class ContractorDash extends React.Component {
 
   render(){
     return (
-      <div id="contractor_dash">
-        <div id="unclaimed-orders">
+      <div id="contractor-dash">
+        <HeaderNav contractor={true}/>
+        <div id="unclaimed-orders" className="section">
           <h2>Unclaimed Orders</h2>
           <ContractorOrdersList
             action={true}
             orders={this.state.unclaimedOrders}
           />
         </div>
-        <div id="pending-orders">
+        <div id="pending-orders" className="section">
           <h2>Pending Orders</h2>
           <ContractorOrdersList
             action={true}
             orders={this.state.pendingOrders}
           />
         </div>
-        <div id="order-history">
+        <div id="order-history" className="section">
           <h2>Order History</h2>
           <ContractorOrdersList
             action={false}

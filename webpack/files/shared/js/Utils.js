@@ -50,7 +50,7 @@ function serverAddressToString(addr){
   if(addr.street_3 != ""){
     address += ", " + addr.street_3;
   }
-  address += ", " + addr.city + " " + addr.zip;
+  address += ", " + addr.city + ", " + addr.state + " " + addr.zip;
   return address;
 }
 
