@@ -94,6 +94,37 @@ def unclaimed_orders(request):
     return Response(serializer.data)
 
 
+
+@api_view(['GET'])
+@permission_classes([perms.IsClient | perms.IsContractor])
+def historical_orders(request):
+    '''Returns the list of completed orders attached to the user.'''
+    if perms.IsClient().has_permission(request, None):
+        orders = models.Order.objects.filter(client=request.user).filter(
+            Q(status='F') | Q(status='C')
+        ).order_by('created_at')
+    elif perms.IsContractor().has_permission(request, None):
+        orders = models.Order.objects.filter(contractor=request.user).filter(status='F').order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+@permission_classes([perms.IsClient | perms.IsContractor])
+def pending_orders(request):
+    '''Returns a list of orders attached to the user that have not yet been completed.'''
+    if perms.IsClient().has_permission(request, None):
+        orders = models.Order.objects.filter(client=request.user).filter(
+            Q(status='U') | Q(status='S'),
+        ).order_by('created_at')
+    elif perms.IsContractor().has_permission(request, None):
+        orders = models.Order.objects.filter(contractor=request.user).filter(status='S').order_by('created_at')
+    serializer = serializers.OrderSerializer(orders, many=True, context={'request', request})
+    return Response(serializer.data)
+
+
+
 @api_view(['GET'])
 @permission_classes([perms.IsClient | perms.IsContractor])
 def scheduled_orders(request):

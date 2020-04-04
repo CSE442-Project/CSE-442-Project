@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 import os
 from . import views, forms
 from django.forms import inlineformset_factory
+from logic import settings
 
 
 host = os.getenv('HOST_NAME', None)
