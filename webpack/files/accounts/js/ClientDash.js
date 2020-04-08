@@ -5,8 +5,6 @@ import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString 
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
 
-import ContractorOrdersList from "./components/ContractorOrdersList";
-import ContractorOrderCard from "./components/ContractorOrderCard";
 import ClientInfo from "./components/ClientInfo";
 
 export default class ClientDash extends React.Component {
