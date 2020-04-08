@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 
 import ContractorOrdersList from "./components/ContractorOrdersList";
 import ContractorOrderCard from "./components/ContractorOrderCard";
+import ClientInfo from "./components/ClientInfo";
 
 export default class ClientDash extends React.Component {
   constructor(props){
@@ -115,7 +116,12 @@ export default class ClientDash extends React.Component {
         </div>
         <div id="client-info" className="section">
           <h2>Your Info</h2>
-          
+          <ClientInfo 
+            user={}
+            address={}
+            phone={}
+            dw_size={}
+          />
         </div>
         <div id="pending-orders" className="section">
           <h2>Pending Orders</h2>
