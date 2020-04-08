@@ -114,11 +114,11 @@ export default class ClientDash extends React.Component {
         </div>
         <div id="client-info" className="section">
           <h2>Your Info</h2>
-          <ClientInfo 
-            user={}
-            address={}
-            phone={}
-            dw_size={}
+          <ClientInfo
+            user={"Bob Normal"}
+            address={"2 Cherry lane"}
+            phone={"234-567-9999"}
+            dw_size={"2"}
           />
         </div>
         <div id="pending-orders" className="section">
