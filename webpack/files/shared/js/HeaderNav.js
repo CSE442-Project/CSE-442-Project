@@ -10,7 +10,7 @@ export default class HeaderNav extends React.Component{
 	}
 
 	handleLogout(){
-		window.location.href = '/accounts/logout/'
+		window.location.href = '/auth/logout/'
 	}
 
 	render(){
