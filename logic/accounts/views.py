@@ -14,6 +14,18 @@ if settings.DEBUG:
     host = '127.0.0.1'
 
 
+def profile(request):
+    if request.user.is_authenticated:
+        if perms.IsClient().has_permission(request, None):
+            return HttpResponseRedirect('/accounts/client/dashboard/')
+        elif perms.IsContractor().has_permission(request, None):
+            return HttpResponseRedirect('/accounts/contractor/dashboard/')
+    response = HttpResponse('You do not have permission to access this page.')
+    response.status_code = 403
+    return response
+
+
+
 @api_view(['GET'])
 @permission_classes([perms.IsClient])
 def my_info(request):
