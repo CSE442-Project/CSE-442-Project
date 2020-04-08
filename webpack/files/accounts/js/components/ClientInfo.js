@@ -11,6 +11,7 @@ export default class ClientInfo extends React.Component {
             <th>###</th>
             <th>User Information</th>
           </tr>
+        </thead>
         <tbody>
           <tr>
             <td>Name:</td>
