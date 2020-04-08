@@ -1,6 +1,6 @@
 from rest_framework import viewsets, mixins, status
 from . import serializers, models
-from . import permissions as perms
+from accounts import permissions as perms
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser

@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from . import permissions as perms
 import os
-from . import views, forms
+from . import views, forms, serializers
 from django.forms import inlineformset_factory
 from logic import settings
 
@@ -9,6 +12,15 @@ from logic import settings
 host = os.getenv('HOST_NAME', None)
 if settings.DEBUG:
     host = '127.0.0.1'
+
+
+@api_view(['GET'])
+@permission_classes([perms.IsClient])
+def my_info(request):
+    '''Returns data about the user that is authenticated and sending this request.'''
+    if perms.IsClient().has_permission(request, None):
+        serializer = serializers.ClientInfoSerializer(request.user.client_profile)
+    return Response(serializer.data)
 
 
 def create_client(request):
