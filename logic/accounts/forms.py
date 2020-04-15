@@ -45,8 +45,8 @@ class ClientCreationForm(forms.Form):
             first_name=self.cleaned_data['first_name'],
             last_name=self.cleaned_data['last_name'],
             email=self.cleaned_data['email'],
-            password=self.cleaned_data['password_1'],
         )
+        user.set_password(self.cleaned_data['password_1']);
         user.save()
         client_group = Group.objects.get_or_create(name='client')[0]
         user.groups.add(client_group)
@@ -106,8 +106,8 @@ class ContractorCreationForm(forms.Form):
             first_name=self.cleaned_data['first_name'],
             last_name=self.cleaned_data['last_name'],
             email=self.cleaned_data['email'],
-            password=self.cleaned_data['password_1'],
         )
+        user.set_password(self.cleaned_data['password_1']);
         user.save()
         contractor_group = Group.objects.get_or_create(name='contractor')[0]
         user.groups.add(contractor_group)
