@@ -5,9 +5,7 @@ import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString 
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
 
-import ClientInfoList from "./components/ClientInfoList.js";
-import ClientInfo from "./components/ClientInfoCard";
-import ClientInfoCard from "./components/ClientInfoList";
+import ClientInfo from "./components/ClientInfo";
 import ClientOrdersList from "./components/ClientOrdersList";
 import ClientOrderCard from "./components/ClientOrderCard";
 
@@ -27,32 +25,6 @@ export default class ClientDash extends React.Component {
     this.getHistoricalOrders = this.getHistoricalOrders.bind(this);
     this.onOrderPlowClick = this.onOrderPlowClick.bind(this);
     this.getOrders = this.getOrders.bind(this);
-    this.getInfo = this.getInfo.bind(this);
-    this.userInfoToCard = this.userInfoToCard.bind(this);
-  }
-
-  getInfo(){
-    var xhr = new XMLHttpRequest()
-    asyncGet(xhr, '/accounts/api/my-info/?format=json', function(){
-      if(checkForErrors(xhr)){
-        var data = JSON.parse(xhr.responseText);
-        var userinfo = data.map((item) => {
-          return this.userInfoToCard(item);
-        });
-        this.setState({clientInfo: clientinfo})
-      }
-    }.bind(this));
-  }
-
-  userInfoToCard(client){
-    var address = serverAddressToString(client.address);
-    return <ClientInfoCard
-      username={client.username}
-      email={client.email}
-      phone={client.phone}
-      dw_size={client.dw_size}
-      address={address}
-    />;
   }
 
   cancelOrder(id){
@@ -134,7 +106,6 @@ export default class ClientDash extends React.Component {
   getOrders(){
     this.getPendingOrders();
     this.getHistoricalOrders();
-    this.getInfo();
   }
 
 
@@ -155,12 +126,7 @@ export default class ClientDash extends React.Component {
             orders={this.state.pendingOrders}
           />
         </div>
-        <div id="client-info" className="section">
-          <h2>Your Info</h2>
-          <ClientInfoList
-            info={this.state.clientInfo}
-          />
-        </div>
+        <ClientInfo />
         <div id="order-history" className="section">
           <h2>Order History</h2>
           <ClientOrdersList
