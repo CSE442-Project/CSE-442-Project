@@ -4,9 +4,12 @@ import "../css/style.css";
 import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString } from "../../shared/js/Utils";
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
-import ClientInfo from "./components/ClientInfoCard";
-import ClientInfoCard from "./components/ClientInfoList";
+import ClientInfo from "./components/ClientInfo";
+import ClientOrdersList from "./components/ClientOrdersList";
+import ClientOrderCard from "./components/ClientOrderCard";
+import OrderCreationForm from "./components/OrderCreationForm";
 
 export default class ClientDash extends React.Component {
   constructor(props){
@@ -14,7 +17,8 @@ export default class ClientDash extends React.Component {
     this.state = {
       pendingOrders: [],
       historicalOrders: [],
-      clientInfo: []
+      clientInfo: [],
+      orderFormOpen: false
     };
 
     this.cancelOrder = this.cancelOrder.bind(this);
@@ -22,35 +26,12 @@ export default class ClientDash extends React.Component {
     this.orderObjectToCard = this.orderObjectToCard.bind(this);
     this.getPendingOrders = this.getPendingOrders.bind(this);
     this.getHistoricalOrders = this.getHistoricalOrders.bind(this);
+    this.onOrderPlowClick = this.onOrderPlowClick.bind(this);
+    this.onCloseOrderForm = this.onCloseOrderForm.bind(this);
     this.getOrders = this.getOrders.bind(this);
-    this.getInfo = this.getInfo.bind(this);
-    this.userInfoToCard = this.userInfoToCard.bind(this);
+    this.onCreateOrder = this.onCreateOrder.bind(this);
   }
 
-  getInfo(){
-    var xhr = new XMLHttpRequest()
-    asyncGet(xhr, 'accounts/api/my-info/', function(){
-      if(checkForErrors(xhr)){
-        var data = JSON.parse(xhr.responseText);
-        var userinfo = data.map((item) => {
-          return this.userInfoToCard(item);
-        });
-        this.setState({clientInfo: clientinfo})
-      }
-    }.bind(this));
-  }
-
-  userInfoToCard(client){
-    var address = serverAddressToString(client.address);
-    return <ClientInfoCard
-      username={client.username}
-      email={client.email}
-      phone={client.phone}
-      dw_size={client.dw_size}
-      address={address}
-    />;
-  }
-  
   cancelOrder(id){
     var xhr = new XMLHttpRequest()
     asyncGet(xhr, '/orders/api/cancel/' + id + "/", function(){
@@ -74,20 +55,36 @@ export default class ClientDash extends React.Component {
 
   orderObjectToCard(order){
     var dt = null;
-    if(order.scheduled_time == null){
+    if(order.schedule_time == null){
       dt = processServerDateTime(order.created_at);
     }else{
-      dt = processServerDateTime(order.scheduled_time);
+      dt = processServerDateTime(order.schedule_time);
     }
     var date = dt.month + "/" + dt.date + "/" + dt.year;
     var time = dt.hour + ":" + dt.minute;
     var actionButton = this.getOrderActionButton(order);
+    var status = null;
+    switch(order.status){
+      case "U":
+        status = "Unclaimed";
+        break;
+      case "S":
+        status = "Scheduled";
+        break;
+      case "C":
+        status = "Canceled";
+        break;
+      case "F":
+        status = "Finished";
+        break;
+    }
     return <ClientOrderCard
-      status={order.status}
+      status={status}
       price={order.cost}
       contractor={order.contractor}
       date={date}
       time={time}
+      comment={order.comment}
       action={actionButton}
     />;
   }
@@ -121,10 +118,24 @@ export default class ClientDash extends React.Component {
   }
 
 
+  onCloseOrderForm(){
+    this.setState({ orderFormOpen: false });
+  }
+
+
+  onOrderPlowClick(){
+    this.setState({ orderFormOpen: true });
+  }
+
+
   getOrders(){
     this.getPendingOrders();
     this.getHistoricalOrders();
-    this.getInfo();
+  }
+
+  onCreateOrder(){
+    this.onCloseOrderForm();
+    this.getOrders();
   }
 
 
@@ -137,15 +148,7 @@ export default class ClientDash extends React.Component {
     return (
       <div id="client-dash">
         <HeaderNav contractor={false}/>
-        <div id="order-button" className="section">
-          <button>Order</button>
-        </div>
-        <div id="client-info" className="section">
-          <h2>Your Info</h2>
-          <ClientInfoList
-            info={this.state.clientInfo}
-          />
-        </div>
+        <Button variant="success" id="order-button" onClick={this.onOrderPlowClick}>Order Plow!</Button>
         <div id="pending-orders" className="section">
           <h2>Pending Orders</h2>
           <ClientOrdersList
@@ -153,6 +156,7 @@ export default class ClientDash extends React.Component {
             orders={this.state.pendingOrders}
           />
         </div>
+        <ClientInfo />
         <div id="order-history" className="section">
           <h2>Order History</h2>
           <ClientOrdersList
@@ -160,10 +164,19 @@ export default class ClientDash extends React.Component {
             orders={this.state.historicalOrders}
           />
         </div>
+
+        <Modal show={this.state.orderFormOpen} onHide={this.onCloseOrderForm}>
+          <Modal.Header closeButton>
+            <Modal.Title>Order Plow</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <OrderCreationForm onFinish={this.onCreateOrder}/>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }
 }
 
 
-ReactDOM.render(<ContractorDash/>, document.getElementById("container"));
+ReactDOM.render(<ClientDash/>, document.getElementById("container"));

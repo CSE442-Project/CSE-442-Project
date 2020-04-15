@@ -5,7 +5,8 @@ module.exports = {
 	mode: "development",
 	entry: {
 		index: "./files/logic/js/index.js",
-		contractor_dashboard: "./files/accounts/js/ContractorDash.js"
+		contractor_dashboard: "./files/accounts/js/ContractorDash.js",
+		client_dashboard: "./files/accounts/js/ClientDash.js"
 	},
 	output: {
 		path: path.resolve("./bundles"),

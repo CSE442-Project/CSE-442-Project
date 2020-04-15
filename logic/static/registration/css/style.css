@@ -1,0 +1,62 @@
+body {
+	background-color: #56788f !important;
+	background-size: cover;
+	background-position: center;
+}
+
+h1, h2, h3, p, label {
+  color: rgb(191, 191, 191);
+}
+
+form{
+  margin: auto;
+  width: 80%;
+}
+
+table{
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.content{
+  margin: auto;
+  width: 90%;
+  text-align: center;
+  vertical-align: middle;
+  opacity: .7;
+  border-radius: 5px;
+  background: black;
+  padding: 3px;
+	padding-bottom: 5px;
+}
+
+@media only screen and (min-width: 400px){
+  .content{
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width: 600px){
+  .content{
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 768px){
+  .content{
+    width: 40%;
+  }
+}
+
+@media only screen and (min-width: 992px){
+  .content{
+    width: 30%;
+  }
+}
+
+@media only screen and (min-width: 1500px){
+  .content{
+    width: 20%;
+  }
+}

@@ -45,8 +45,8 @@ class ClientCreationForm(forms.Form):
             first_name=self.cleaned_data['first_name'],
             last_name=self.cleaned_data['last_name'],
             email=self.cleaned_data['email'],
-            password=self.cleaned_data['password_1'],
         )
+        user.set_password(self.cleaned_data['password_1']);
         user.save()
         client_group = Group.objects.get_or_create(name='client')[0]
         user.groups.add(client_group)
@@ -90,6 +90,15 @@ class ContractorCreationForm(forms.Form):
     password_1 = forms.CharField(label='Enter Password', widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
+    def clean_username(self):
+        existing = User.objects.filter(username=self.cleaned_data['username']).all()
+        if len(existing) != 0:
+            raise forms.ValidationError(
+                'An account with this username already exists.',
+                code='existing_username'
+            )
+        return self.cleaned_data['username']
+
     def clean_password_2(self):
         password_1 = self.cleaned_data.get('password_1')
         password_2 = self.cleaned_data.get('password_2')
@@ -106,8 +115,8 @@ class ContractorCreationForm(forms.Form):
             first_name=self.cleaned_data['first_name'],
             last_name=self.cleaned_data['last_name'],
             email=self.cleaned_data['email'],
-            password=self.cleaned_data['password_1'],
         )
+        user.set_password(self.cleaned_data['password_1']);
         user.save()
         contractor_group = Group.objects.get_or_create(name='contractor')[0]
         user.groups.add(contractor_group)
