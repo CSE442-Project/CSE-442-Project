@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="/static/shared/css/style.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="/static/accounts/css/style.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>Client Dashboard</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 5px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <center><h1>Your Dashboard</h1></center>
+    <center><h2>Pending Orders List</h2></center>
+    <div class="topnav">
+      <a class="active" href="/">Logout</a>
+    </div>
+    <center>
+      <div>
+        <div id="jobs" style="float: left; width: 40%; height: 300px;">
+         
+          <div
+            id="pendingJobs"
+            class="tabcontent"
+            style="overflow: scroll;"
+          >
+            <font size="5"><b>Job</b></font>
+            <table>
+              <tr>
+                <th>Status</th>
+                <th>Cost:</th>
+                <th>Contractor:</th>
+                <th>Date:</th>The component has the h2 title populated with the value in the title prop
+                <th>Time: </th>
+              </tr>
+              <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+              </tr>
+            </table>
+          </div>
+          
+        </div>
+        <div id="map" style="float: right; width: 60%; height: 300px;">
+          <div style="background: blue; width: 95%; height: 250px;">
+            <p>MAP GOES HERE</p>
+          </div>
+          <!-- <button id="orderButt" class="button" onClick="showOrderBox()">
+            Order
+          </button> -->
+        </div>
+      </div>
+      <!-- <div id="orderBox" style="display: none;">
+        Nearest Available Plow:
+        <table>
+          <tr>
+            <th>Name:</th>
+            <td>John Smith</td>
+          </tr>
+          <tr>
+            <th>Vehicle Type:</th>
+            <td>Tesla Truck</td>
+          </tr>
+          <tr>
+            <th>Vehicle Color:</th>
+            <td>Steel</td>
+          </tr>
+          <tr>
+            <th>Liscence Plate Number:</th>
+            <td>JGY-7855</td>
+          </tr>
+          <tr>
+            <th>Cost:</th>
+            <td>$10.47</td>
+          </tr>
+        </table>
+        <button id="nextContractor" class="button">Next Contractor</button
+        ><br /><br />
+        <form action="">
+          <input
+            type="text"
+            id="comment"
+            placeholder="Enter any special instructions:"
+          />
+          <input type="submit" value="Order" />
+        </form>
+      </div> -->
+    </center>
+
+    <script>
+      function showOrderBox() {
+        var box = document.getElementById("orderBox");
+        var butt = document.getElementById("orderButt");
+        if (box.style.display === "none") {
+          box.style.display = "block";
+          butt.innerHTML = "Cancel";
+        } else {
+          box.style.display = "none";
+          butt.innerHTML = "Order";
+        }
+      }
+
+      function openTab(tabName) {
+        var i, tabcontent;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tabName.style.display = "block";
+      }
+    </script>
+  </body>
+</html>
