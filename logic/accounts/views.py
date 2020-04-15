@@ -62,7 +62,17 @@ def create_verification(request):
 
 
 def client_dashboard(request):
-    return render(request, 'accounts/client_dash.html')
+    if request.user.is_authenticated:
+        if not perms.IsClient().has_permission(request, None):
+            response = HttpResponse('You do not have permission to access this page.')
+            response.status_code = 403
+            return response
+    context = {
+        'title': 'Dashboard',
+        'script_src': f'http://{host}/static/bundles/client_dashboard.js',
+        'auth_redirect': f'http://{host}/auth/login/?next=/accounts/client/dashboard/'
+    }
+    return render(request, 'react/react-auth.html', context)
 
 
 def contractor_dashboard(request):

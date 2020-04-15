@@ -5,8 +5,10 @@ import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString 
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
 
+import ClientInfoList from "./components/ClientInfoList.js";
 import ClientInfo from "./components/ClientInfoCard";
 import ClientInfoCard from "./components/ClientInfoList";
+import ClientOrdersList from "./components/ClientOrdersList";
 
 export default class ClientDash extends React.Component {
   constructor(props){
@@ -50,7 +52,7 @@ export default class ClientDash extends React.Component {
       address={address}
     />;
   }
-  
+
   cancelOrder(id){
     var xhr = new XMLHttpRequest()
     asyncGet(xhr, '/orders/api/cancel/' + id + "/", function(){
@@ -166,4 +168,4 @@ export default class ClientDash extends React.Component {
 }
 
 
-ReactDOM.render(<ContractorDash/>, document.getElementById("container"));
+ReactDOM.render(<ClientDash/>, document.getElementById("container"));
