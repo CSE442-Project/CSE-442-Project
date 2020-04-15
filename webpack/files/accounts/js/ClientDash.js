@@ -5,15 +5,16 @@ import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString 
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
 
-import ContractorOrdersList from "./components/ContractorOrdersList";
-import ContractorOrderCard from "./components/ContractorOrderCard";
+import ClientInfo from "./components/ClientInfoCard";
+import ClientInfoCard from "./components/ClientInfoList";
 
 export default class ClientDash extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       pendingOrders: [],
-      historicalOrders: []
+      historicalOrders: [],
+      clientInfo: []
     };
 
     this.cancelOrder = this.cancelOrder.bind(this);
@@ -22,9 +23,34 @@ export default class ClientDash extends React.Component {
     this.getPendingOrders = this.getPendingOrders.bind(this);
     this.getHistoricalOrders = this.getHistoricalOrders.bind(this);
     this.getOrders = this.getOrders.bind(this);
+    this.getInfo = this.getInfo.bind(this);
+    this.userInfoToCard = this.userInfoToCard.bind(this);
   }
 
+  getInfo(){
+    var xhr = new XMLHttpRequest()
+    asyncGet(xhr, 'accounts/api/my-info/', function(){
+      if(checkForErrors(xhr)){
+        var data = JSON.parse(xhr.responseText);
+        var userinfo = data.map((item) => {
+          return this.userInfoToCard(item);
+        });
+        this.setState({clientInfo: clientinfo})
+      }
+    }.bind(this));
+  }
 
+  userInfoToCard(client){
+    var address = serverAddressToString(client.address);
+    return <ClientInfoCard
+      username={client.username}
+      email={client.email}
+      phone={client.phone}
+      dw_size={client.dw_size}
+      address={address}
+    />;
+  }
+  
   cancelOrder(id){
     var xhr = new XMLHttpRequest()
     asyncGet(xhr, '/orders/api/cancel/' + id + "/", function(){
@@ -98,6 +124,7 @@ export default class ClientDash extends React.Component {
   getOrders(){
     this.getPendingOrders();
     this.getHistoricalOrders();
+    this.getInfo();
   }
 
 
@@ -115,7 +142,9 @@ export default class ClientDash extends React.Component {
         </div>
         <div id="client-info" className="section">
           <h2>Your Info</h2>
-          
+          <ClientInfoList
+            info={this.state.clientInfo}
+          />
         </div>
         <div id="pending-orders" className="section">
           <h2>Pending Orders</h2>
