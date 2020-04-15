@@ -37,3 +37,34 @@ body {
   float: right;
   margin-right: 1%;
 }
+
+
+#client-dash #order-button {
+  height: 20% !important;
+  width: 33% !important;
+  float: left;
+  font-size: xxx-large;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+
+#client-dash #client-info {
+  float: left;
+  height: 70%;
+  width: 33%;
+  margin-left: 1%;
+  margin-top: 1%;
+}
+
+
+#client-dash #pending-orders {
+  width: 64%;
+  float: right;
+}
+
+
+#client-dash #order-history {
+  width: 64%;
+  float: right;
+}

@@ -25,6 +25,7 @@ export default class ClientDash extends React.Component {
     this.orderObjectToCard = this.orderObjectToCard.bind(this);
     this.getPendingOrders = this.getPendingOrders.bind(this);
     this.getHistoricalOrders = this.getHistoricalOrders.bind(this);
+    this.onOrderPlowClick = this.onOrderPlowClick.bind(this);
     this.getOrders = this.getOrders.bind(this);
     this.getInfo = this.getInfo.bind(this);
     this.userInfoToCard = this.userInfoToCard.bind(this);
@@ -125,6 +126,11 @@ export default class ClientDash extends React.Component {
   }
 
 
+  onOrderPlowClick(){
+
+  }
+
+
   getOrders(){
     this.getPendingOrders();
     this.getHistoricalOrders();
@@ -141,20 +147,18 @@ export default class ClientDash extends React.Component {
     return (
       <div id="client-dash">
         <HeaderNav contractor={false}/>
-        <div id="order-button" className="section">
-          <button>Order</button>
-        </div>
-        <div id="client-info" className="section">
-          <h2>Your Info</h2>
-          <ClientInfoList
-            info={this.state.clientInfo}
-          />
-        </div>
+        <Button variant="success" id="order-button" onClick={this.onOrderPlowClick}>Order Plow!</Button>
         <div id="pending-orders" className="section">
           <h2>Pending Orders</h2>
           <ClientOrdersList
             action={true}
             orders={this.state.pendingOrders}
+          />
+        </div>
+        <div id="client-info" className="section">
+          <h2>Your Info</h2>
+          <ClientInfoList
+            info={this.state.clientInfo}
           />
         </div>
         <div id="order-history" className="section">
