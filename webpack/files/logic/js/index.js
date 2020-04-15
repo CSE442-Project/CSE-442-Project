@@ -9,6 +9,12 @@ ReactDOM.render(
     <h1>Welcome to Plow Me!</h1>
     <div className="create_account_buttons">
       <Button
+        id="login_button"
+        href="/auth/login/"
+        variant="success"
+      >
+        Login to Existing Account</Button>
+      <Button
         id="create_client_account_button"
         href="/accounts/create/client/"
         variant="primary"
