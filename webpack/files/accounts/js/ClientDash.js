@@ -9,6 +9,7 @@ import ClientInfoList from "./components/ClientInfoList.js";
 import ClientInfo from "./components/ClientInfoCard";
 import ClientInfoCard from "./components/ClientInfoList";
 import ClientOrdersList from "./components/ClientOrdersList";
+import ClientOrderCard from "./components/ClientOrderCard";
 
 export default class ClientDash extends React.Component {
   constructor(props){
@@ -31,7 +32,7 @@ export default class ClientDash extends React.Component {
 
   getInfo(){
     var xhr = new XMLHttpRequest()
-    asyncGet(xhr, 'accounts/api/my-info/', function(){
+    asyncGet(xhr, '/accounts/api/my-info/?format=json', function(){
       if(checkForErrors(xhr)){
         var data = JSON.parse(xhr.responseText);
         var userinfo = data.map((item) => {
@@ -68,7 +69,7 @@ export default class ClientDash extends React.Component {
       const onCancelClick = function(){
         this.cancelOrder(order.id);
       }.bind(this);
-      return <Button variant="outline-primary" onClick={onCancelClick}>Cancel</Button>;
+      return <Button variant="outline-primary" onClick={this.cancelOrder(order.id)}>Cancel</Button>;
     }
     return null;
   }
@@ -90,6 +91,7 @@ export default class ClientDash extends React.Component {
       contractor={order.contractor}
       date={date}
       time={time}
+      comment={order.comment}
       action={actionButton}
     />;
   }
