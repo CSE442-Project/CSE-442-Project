@@ -4,10 +4,12 @@ import "../css/style.css";
 import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString } from "../../shared/js/Utils";
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 import ClientInfo from "./components/ClientInfo";
 import ClientOrdersList from "./components/ClientOrdersList";
 import ClientOrderCard from "./components/ClientOrderCard";
+import OrderCreationForm from "./components/OrderCreationForm";
 
 export default class ClientDash extends React.Component {
   constructor(props){
@@ -15,7 +17,8 @@ export default class ClientDash extends React.Component {
     this.state = {
       pendingOrders: [],
       historicalOrders: [],
-      clientInfo: []
+      clientInfo: [],
+      orderFormOpen: false
     };
 
     this.cancelOrder = this.cancelOrder.bind(this);
@@ -24,7 +27,9 @@ export default class ClientDash extends React.Component {
     this.getPendingOrders = this.getPendingOrders.bind(this);
     this.getHistoricalOrders = this.getHistoricalOrders.bind(this);
     this.onOrderPlowClick = this.onOrderPlowClick.bind(this);
+    this.onCloseOrderForm = this.onCloseOrderForm.bind(this);
     this.getOrders = this.getOrders.bind(this);
+    this.onCreateOrder = this.onCreateOrder.bind(this);
   }
 
   cancelOrder(id){
@@ -42,7 +47,7 @@ export default class ClientDash extends React.Component {
       const onCancelClick = function(){
         this.cancelOrder(order.id);
       }.bind(this);
-      return <Button variant="outline-primary" onClick={this.cancelOrder(order.id)}>Cancel</Button>;
+      return <Button variant="outline-primary" onClick={onCancelClick}>Cancel</Button>;
     }
     return null;
   }
@@ -50,16 +55,31 @@ export default class ClientDash extends React.Component {
 
   orderObjectToCard(order){
     var dt = null;
-    if(order.scheduled_time == null){
+    if(order.schedule_time == null){
       dt = processServerDateTime(order.created_at);
     }else{
-      dt = processServerDateTime(order.scheduled_time);
+      dt = processServerDateTime(order.schedule_time);
     }
     var date = dt.month + "/" + dt.date + "/" + dt.year;
     var time = dt.hour + ":" + dt.minute;
     var actionButton = this.getOrderActionButton(order);
+    var status = null;
+    switch(order.status){
+      case "U":
+        status = "Unclaimed";
+        break;
+      case "S":
+        status = "Scheduled";
+        break;
+      case "C":
+        status = "Canceled";
+        break;
+      case "F":
+        status = "Finished";
+        break;
+    }
     return <ClientOrderCard
-      status={order.status}
+      status={status}
       price={order.cost}
       contractor={order.contractor}
       date={date}
@@ -98,14 +118,24 @@ export default class ClientDash extends React.Component {
   }
 
 
-  onOrderPlowClick(){
+  onCloseOrderForm(){
+    this.setState({ orderFormOpen: false });
+  }
 
+
+  onOrderPlowClick(){
+    this.setState({ orderFormOpen: true });
   }
 
 
   getOrders(){
     this.getPendingOrders();
     this.getHistoricalOrders();
+  }
+
+  onCreateOrder(){
+    this.onCloseOrderForm();
+    this.getOrders();
   }
 
 
@@ -134,6 +164,15 @@ export default class ClientDash extends React.Component {
             orders={this.state.historicalOrders}
           />
         </div>
+
+        <Modal show={this.state.orderFormOpen} onHide={this.onCloseOrderForm}>
+          <Modal.Header closeButton>
+            <Modal.Title>Order Plow</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <OrderCreationForm onFinish={this.onCreateOrder}/>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }

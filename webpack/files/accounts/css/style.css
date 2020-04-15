@@ -68,3 +68,44 @@ body {
   width: 64%;
   float: right;
 }
+
+
+.modal-content {
+  background-color: rgba(33, 65, 81, .9);
+  color: white;
+}
+
+
+#order-creation-form {
+  width: 80%;
+  margin-bottom: 0;
+  margin: auto;
+	text-align: center;
+}
+
+#order-creation-form label {
+  display: block;
+  text-align: left;
+}
+
+label input, label textarea {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.form_submit {
+	border-radius: 8px;
+  margin-top: .5em;
+  padding: .3em;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  border-color: #0057b5;
+  background:#0057b5;
+  font-weight: bold;
+  color: white;
+}
+
+.close {
+  color: white;
+}

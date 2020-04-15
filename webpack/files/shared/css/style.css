@@ -3,9 +3,9 @@
 }
 
 .navbar-brand {
-  color: white;
+  color: white !important;
 }
 
 .nav-link {
-  color: cornflowerblue;
+  color: cornflowerblue !important;
 }
