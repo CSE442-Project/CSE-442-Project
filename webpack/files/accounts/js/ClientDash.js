@@ -4,10 +4,12 @@ import "../css/style.css";
 import { asyncGet, checkForErrors, processServerDateTime, serverAddressToString } from "../../shared/js/Utils";
 import HeaderNav from "../../shared/js/HeaderNav";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
 import ClientInfo from "./components/ClientInfo";
 import ClientOrdersList from "./components/ClientOrdersList";
 import ClientOrderCard from "./components/ClientOrderCard";
+import OrderCreationForm from "./components/OrderCreationForm";
 
 export default class ClientDash extends React.Component {
   constructor(props){
@@ -15,7 +17,8 @@ export default class ClientDash extends React.Component {
     this.state = {
       pendingOrders: [],
       historicalOrders: [],
-      clientInfo: []
+      clientInfo: [],
+      orderFormOpen: false
     };
 
     this.cancelOrder = this.cancelOrder.bind(this);
@@ -24,6 +27,7 @@ export default class ClientDash extends React.Component {
     this.getPendingOrders = this.getPendingOrders.bind(this);
     this.getHistoricalOrders = this.getHistoricalOrders.bind(this);
     this.onOrderPlowClick = this.onOrderPlowClick.bind(this);
+    this.onCloseOrderForm = this.onCloseOrderForm.bind(this);
     this.getOrders = this.getOrders.bind(this);
   }
 
@@ -98,8 +102,13 @@ export default class ClientDash extends React.Component {
   }
 
 
-  onOrderPlowClick(){
+  onCloseOrderForm(){
+    this.setState({ orderFormOpen: false });
+  }
 
+
+  onOrderPlowClick(){
+    this.setState({ orderFormOpen: true });
   }
 
 
@@ -134,6 +143,15 @@ export default class ClientDash extends React.Component {
             orders={this.state.historicalOrders}
           />
         </div>
+
+        <Modal show={this.state.orderFormOpen} onHide={this.onCloseOrderForm}>
+          <Modal.Header closeButton>
+            <Modal.Title>Order Plow</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <OrderCreationForm />
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }
