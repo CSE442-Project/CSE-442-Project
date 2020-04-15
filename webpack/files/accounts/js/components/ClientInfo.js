@@ -49,8 +49,9 @@ export default class ClientInfo extends React.Component {
         <div id="info">
           <h5 className="info-entry">Username: {this.state.username}</h5>
           <h5 className="info-entry">Email: {this.state.email}</h5>
+          <h5 className="info-entry">Phone: {this.state.phone}</h5>
           <h5 className="info-entry">Driveway Size: {this.state.drivewaySize}</h5>
-          <h5 className="info-entry">Flat Rate: {this.state.rate}</h5>
+          <h5 className="info-entry">Flat Rate: ${this.state.rate}</h5>
           <h5 className="info-entry">Address: {this.state.address}</h5>
         </div>
       </div>
