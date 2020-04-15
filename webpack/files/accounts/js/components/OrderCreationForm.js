@@ -1,5 +1,5 @@
 import React from "react";
-import { asyncPost, checkForErrors } from "../../../shared/js/Utils";
+import { asyncPost, checkForErrors, processServerDateTime } from "../../../shared/js/Utils";
 
 
 
@@ -7,30 +7,65 @@ export default class OrderCreationForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      date: "",
-      time: "",
+      dateTime: "",
       comment: ""
     };
 
+    this.validateDateTime = this.validateDateTime.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleDateTimeChange = this.handleDateTimeChange.bind(this);
     this.handleCommentChange = this.handleCommentChange.bind(this);
   }
+
+  validateDateTime(){
+    if(this.state.dateTime != ""){
+      var dt = processServerDateTime(this.state.dateTime);
+      var jsDt = new Date(dt.year, dt.month, dt.date, dt.hour, dt.minute, 0, 0);
+      var now = new Date();
+      return jsDt.getTime() > now.getTime();
+    }
+    return true;
+  }
+
+
+  alertInvalidDateTime(){
+    alert("Please select a preferred schedule time that is in the future or blank.")
+  }
+
 
   handleSubmit(event){
     event.preventDefault();
 
+    const validDateTime = this.validateDateTime();
+
+    if(validDateTime){
+      var xhr = new XMLHttpRequest();
+      var payload = new FormData();
+      if(this.state.comment != ""){
+        payload.append("comment", this.state.comment);
+      }
+      if(this.state.dateTime != ""){
+        payload.append("schedule_time", this.state.dateTime);
+      }
+      asyncPost(
+        xhr,
+        "/orders/api/create/",
+        function(){
+          var valid = checkForErrors(xhr);
+          if(valid){
+            this.props.onFinish()
+          }
+        }.bind(this),
+        payload
+      );
+    }else{
+      this.alertInvalidDateTime()
+    }
   }
 
 
-  handleDateChange(event){
-    this.setState({ date: event.target.value });
-  }
-
-
-  handleTimeChange(event){
-    this.setState({ time: event.target.value });
+  handleDateTimeChange(event){
+    this.setState({ dateTime: event.target.value });
   }
 
 
@@ -40,17 +75,11 @@ export default class OrderCreationForm extends React.Component {
 
   render(){
     return (
-      <form id="order-creation-form">
+      <form id="order-creation-form" onSubmit={this.handleSubmit}>
 
         <label>
-          Date:
-          <input id="order_creation_form_date" type="date" value={this.state.date} onChange={this.handleDateChange}/>
-        </label>
-
-
-        <label>
-          Time:
-          <input id="order_creation_form_time" type="time" value={this.state.time} onChange={this.handleTimeChange}/>
+          Preferred Schedule Time:
+          <input id="order_creation_form_datetime" type="datetime-local" value={this.state.dateTime} onChange={this.handleDateTimeChange}/>
         </label>
 
         <label>
