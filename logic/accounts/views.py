@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from . import permissions as perms
@@ -7,11 +7,25 @@ import os
 from . import views, forms, serializers
 from django.forms import inlineformset_factory
 from logic import settings
+from django.db import models
+from django.contrib.auth.models import User
 
 
 host = os.getenv('HOST_NAME', None)
 if settings.DEBUG:
     host = '127.0.0.1'
+
+
+def profile(request):
+    if request.user.is_authenticated:
+        if perms.IsClient().has_permission(request, None):
+            return HttpResponseRedirect('/accounts/client/dashboard/')
+        elif perms.IsContractor().has_permission(request, None):
+            return HttpResponseRedirect('/accounts/contractor/dashboard/')
+    response = HttpResponse('You do not have permission to access this page.')
+    response.status_code = 403
+    return response
+
 
 
 @api_view(['GET'])
@@ -21,6 +35,13 @@ def my_info(request):
     if perms.IsClient().has_permission(request, None):
         serializer = serializers.ClientInfoSerializer(request.user.client_profile)
     return Response(serializer.data)
+
+def update(request):
+    if perms.IsContractor().has_permission(request, None):
+        contractor = models.ContractorVehicle
+        contractor.make = request.POST.get('make')
+        client.save()
+        return HttpResponse('updated')
 
 
 def create_client(request):
@@ -50,13 +71,28 @@ def create_verification(request):
 
 
 def client_dashboard(request):
-    return render(request, 'accounts/client_dash.html')
+    if request.user.is_authenticated:
+        if not perms.IsClient().has_permission(request, None):
+            response = HttpResponse('You do not have permission to access this page.')
+            response.status_code = 403
+            return response
+    context = {
+        'title': 'Dashboard',
+        'script_src': f'http://{host}/static/bundles/client_dashboard.js',
+        'auth_redirect': f'http://{host}/auth/login/?next=/accounts/client/dashboard/'
+    }
+    return render(request, 'react/react-auth.html', context)
 
 
 def contractor_dashboard(request):
+    if request.user.is_authenticated:
+        if not perms.IsContractor().has_permission(request, None):
+            response = HttpResponse('You do not have permission to access this page.')
+            response.status_code = 403
+            return response
     context = {
         'title': 'Dashboard',
         'script_src': f'http://{host}/static/bundles/contractor_dashboard.js',
-        'auth_redirect': f'http://{host}/accounts/login/?next=/accounts/contractor/dashboard/'
+        'auth_redirect': f'http://{host}/auth/login/?next=/accounts/contractor/dashboard/'
     }
-    return render(request, 'react/react.html', context)
+    return render(request, 'react/react-auth.html', context)
