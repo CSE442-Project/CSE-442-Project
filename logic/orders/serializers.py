@@ -9,6 +9,7 @@ class OrderSerializer(serializers.ModelSerializer):
     contractor = serializers.ReadOnlyField(source='contractor.username')
     cost = serializers.SerializerMethodField()
     address = serializers.SerializerMethodField()
+    navigate_url = serializers.SerializerMethodField()
 
     def get_cost(self, obj):
         return obj.client.client_profile.dw_size * 15
@@ -17,6 +18,9 @@ class OrderSerializer(serializers.ModelSerializer):
         address = obj.client.client_profile.address
         serializer = AddressSerializer(address)
         return serializer.data
+
+    def navigate_url(self, obj):
+        return f'https://www.google.com/maps/dir/?api=1&destination={str(obj.address)}'
 
     class Meta:
         model = models.Order
@@ -30,4 +34,5 @@ class OrderSerializer(serializers.ModelSerializer):
             'comment',
             'cost',
             'address',
+            'navigate_url',
         )
