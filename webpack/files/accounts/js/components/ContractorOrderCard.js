@@ -13,6 +13,7 @@ export default class ContractorOrderCard extends React.Component {
         <td>{this.props.time}</td>
         <td>{this.props.comment}</td>
         {this.props.action != null ? <td>{this.props.action}</td> : null}
+        {this.props.navigate != null ? <td>{this.props.navigate}</td> : null}
       </tr>
     );
   }
