@@ -19,8 +19,8 @@ class OrderSerializer(serializers.ModelSerializer):
         serializer = AddressSerializer(address)
         return serializer.data
 
-    def navigate_url(self, obj):
-        return f'https://www.google.com/maps/dir/?api=1&destination={str(obj.address)}'
+    def get_navigate_url(self, obj):
+        return f'https://www.google.com/maps/dir/?api=1&destination={str(obj.client.client_profile.address)}'
 
     class Meta:
         model = models.Order
