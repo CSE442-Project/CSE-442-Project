@@ -47,6 +47,7 @@ class ClientCreationForm(forms.Form):
             email=self.cleaned_data['email'],
         )
         user.set_password(self.cleaned_data['password_1']);
+        user.is_active = False
         user.save()
         client_group = Group.objects.get_or_create(name='client')[0]
         user.groups.add(client_group)
