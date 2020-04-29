@@ -16,19 +16,18 @@ class ContractorProfile(models.Model):
 
 
 class ContractorVehicle(models.Model):
-    owner = models.ForeignKey(
-        ContractorProfile,
-        on_delete=models.CASCADE,
-        related_name='vehicles'
-    )
-    color = models.CharField(max_length=20)
-    plate = models.CharField(max_length=7)
-    make = models.CharField(max_length=50)
-    model = models.CharField(max_length=50)
-    year = models.IntegerField()
+    # owner = models.ForeignKey(
+    #     ContractorProfile,
+    #     on_delete=models.CASCADE,
+    #     related_name='vehicles'
+    # )
+    vehicleMake = models.CharField(max_length=50)
+    vehicleModel = models.CharField(max_length=50)
+    vehicleLicense = models.CharField(max_length=50)
+    
 
     def __str__(self):
-        return self.plate
+        return f'{self.vehicleMake},{self.vehicleMake},{self.vehicleLicense}'
 
 
 class Address(models.Model):

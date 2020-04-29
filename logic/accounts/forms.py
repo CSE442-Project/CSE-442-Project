@@ -87,6 +87,9 @@ class ContractorCreationForm(forms.Form):
     last_name = forms.CharField(label='Enter last name', max_length=50)
     email = forms.EmailField(label='Enter email')
     phone = forms.IntegerField()
+    vehicleMake  = forms.CharField(label='Enter vechicle make', max_length=50)
+    vehicleModel  = forms.CharField(label='Enter vechicle model', max_length=50)
+    vehicleLicense  = forms.CharField(label='Enter vechicle license Plate Number', max_length=50)
     password_1 = forms.CharField(label='Enter Password', widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
@@ -121,7 +124,14 @@ class ContractorCreationForm(forms.Form):
         contractor_group = Group.objects.get_or_create(name='contractor')[0]
         user.groups.add(contractor_group)
         return user
-
+    def create_vehicle(self):
+        vehicle = models.ContractorVehicle(
+            vehicleMake=self.cleaned_data['vehicleMake'],
+            vehicleModel=self.cleaned_data['vehicleModel'],
+            vehicleLicense=self.cleaned_data['vehicleLicense'],
+        )
+        vehicle.save()
+        return vehicle
     def create_contractor(self):
         user = self._create_auth_user()
         profile = models.ContractorProfile(

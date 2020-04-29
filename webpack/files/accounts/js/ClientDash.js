@@ -85,6 +85,7 @@ export default class ClientDash extends React.Component {
       date={date}
       time={time}
       comment={order.comment}
+      vehicle={order.vehicle}
       action={actionButton}
     />;
   }

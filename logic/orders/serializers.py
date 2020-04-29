@@ -9,6 +9,7 @@ class OrderSerializer(serializers.ModelSerializer):
     contractor = serializers.ReadOnlyField(source='contractor.username')
     cost = serializers.SerializerMethodField()
     address = serializers.SerializerMethodField()
+    vehicle = serializers.ReadOnlyField(source='contractor.vehicleMake')
 
     def get_cost(self, obj):
         return obj.client.client_profile.dw_size * 15
@@ -30,4 +31,5 @@ class OrderSerializer(serializers.ModelSerializer):
             'comment',
             'cost',
             'address',
+            'vehicleMake'
         )

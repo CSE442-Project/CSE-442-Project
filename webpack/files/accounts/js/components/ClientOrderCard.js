@@ -11,6 +11,7 @@ export default class ClientOrderCard extends React.Component {
         <td>{this.props.date}</td>
         <td>{this.props.time}</td>
         <td>{this.props.comment}</td>
+        <td>{this.props.vehicle}</td>
         {this.props.action != null ? <td>{this.props.action}</td> : null}
       </tr>
     );

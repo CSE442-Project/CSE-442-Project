@@ -15,6 +15,7 @@ export default class ClientOrdersList extends React.Component {
           <th>Date</th>
           <th>Time</th>
           <th>Comment</th>
+          <th>Vehicle</th>
           {this.props.action == true ? <th>Action</th> : null}
         </tr>
         </thead>
