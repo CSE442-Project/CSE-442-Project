@@ -20,6 +20,7 @@ export default class ContractorDash extends React.Component {
     this.acceptOrder = this.acceptOrder.bind(this);
     this.finishOrder = this.finishOrder.bind(this);
     this.getOrderActionButton = this.getOrderActionButton.bind(this);
+    this.getOrderNavigateButton = this.getOrderNavigateButton.bind(this);
     this.orderObjectToCard = this.orderObjectToCard.bind(this);
     this.getUnclaimedOrders = this.getUnclaimedOrders.bind(this);
     this.getPendingOrders = this.getPendingOrders.bind(this);
@@ -64,6 +65,14 @@ export default class ContractorDash extends React.Component {
   }
 
 
+  getOrderNavigateButton(order){
+    if(order.status == "S"){
+      return <Button variant="outline-primary" href={order.navigate_url}>Navigate</Button>
+    }
+    return null;
+  }
+
+
   orderObjectToCard(order){
     var address = serverAddressToString(order.address);
     var dt = null;
@@ -75,6 +84,7 @@ export default class ContractorDash extends React.Component {
     var date = dt.month + "/" + dt.date + "/" + dt.year;
     var time = dt.hour + ":" + dt.minute;
     var actionButton = this.getOrderActionButton(order);
+    var navigateButton = this.getOrderNavigateButton(order);
     return <ContractorOrderCard
       price={order.cost}
       client={order.client}
@@ -83,6 +93,7 @@ export default class ContractorDash extends React.Component {
       time={time}
       comment={order.comment}
       action={actionButton}
+      navigate={navigateButton}
     />;
   }
 
@@ -149,6 +160,7 @@ export default class ContractorDash extends React.Component {
           <h2>Unclaimed Orders</h2>
           <ContractorOrdersList
             action={true}
+            navigate={false}
             orders={this.state.unclaimedOrders}
           />
         </div>
@@ -156,6 +168,7 @@ export default class ContractorDash extends React.Component {
           <h2>Pending Orders</h2>
           <ContractorOrdersList
             action={true}
+            navigate={true}
             orders={this.state.pendingOrders}
           />
         </div>
@@ -163,6 +176,7 @@ export default class ContractorDash extends React.Component {
           <h2>Order History</h2>
           <ContractorOrdersList
             action={false}
+            navigate={false}
             orders={this.state.historicalOrders}
           />
         </div>
