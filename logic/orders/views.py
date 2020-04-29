@@ -23,6 +23,10 @@ class CreateOrderViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     def perform_create(self, serializer):
         serializer.save(client=self.request.user)
+        subject = 'A new PlowME order has been created!'
+        message = 'An order in your area is availible for plowing. Please go to your dashboard to accept it.'
+        recipient = ""
+        send_mail(subject, message, EMAIL_HOST_USER, [recipient])
 
 
 
