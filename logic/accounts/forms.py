@@ -31,6 +31,15 @@ class ClientCreationForm(forms.Form):
         label='Enter the number of cars your driveway can hold'
     )
 
+    def clean_username(self):
+        existing = User.objects.filter(username=self.cleaned_data['username']).all()
+        if len(existing) != 0:
+            raise forms.ValidationError(
+                'An account with this username already exists.',
+                code='existing_username'
+            )
+        return self.cleaned_data['username']
+
     def clean_password_2(self):
         password_1 = self.cleaned_data.get('password_1')
         password_2 = self.cleaned_data.get('password_2')
