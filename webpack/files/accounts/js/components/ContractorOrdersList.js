@@ -16,6 +16,7 @@ export default class ContractorOrdersList extends React.Component {
           <th>Time</th>
           <th>Comment</th>
           {this.props.action == true ? <th>Action</th> : null}
+          {this.props.navigate == true ? <th>Navigate</th> : null}
         </tr>
         </thead>
         <tbody>
