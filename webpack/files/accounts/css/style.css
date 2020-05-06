@@ -3,14 +3,17 @@ body {
 }
 
 .section {
-  width: 48.5%;
-  height: 45%;
+  width: 98%;
+  max-height: 45%;
   padding: 1%;
   background-color: #3e6885;
   border-radius: 8px;
   color: white;
   overflow: auto;
+  margin-top: 2%;
+  margin-left: 1%;
 }
+
 
 .table th {
   color: white;
@@ -20,53 +23,15 @@ body {
   color: #c0dbed;
 }
 
-#unclaimed-orders {
-  height: 91.5%;
-  float: left;
-  margin-left: 1%;
-  margin-bottom: 1%;
-  margin-top: 1%;
-}
-
-#pending-orders {
-  float: right;
-  margin: 1%;
-}
-
-#order-history {
-  float: right;
-  margin-right: 1%;
-}
-
 
 #client-dash #order-button {
   height: 20% !important;
-  width: 33% !important;
+  width: 98% !important;
   float: left;
   font-size: xxx-large;
   margin-left: 1%;
   margin-top: 1%;
-}
-
-
-#client-dash #client-info {
-  float: left;
-  height: 70%;
-  width: 33%;
-  margin-left: 1%;
-  margin-top: 1%;
-}
-
-
-#client-dash #pending-orders {
-  width: 64%;
-  float: right;
-}
-
-
-#client-dash #order-history {
-  width: 64%;
-  float: right;
+  margin-bottom: 2%;
 }
 
 
@@ -108,4 +73,56 @@ label input, label textarea {
 
 .close {
   color: white;
+}
+
+@media only screen and (min-width: 1500px){
+	.section{
+    width: 48.5%;
+    height: 45%;
+    max-height: 100%;
+    margin-top: 0;
+  }
+
+  #unclaimed-orders {
+    height: 91.5%;
+    float: left;
+    margin-left: 1%;
+    margin-bottom: 1%;
+    margin-top: 1%;
+  }
+
+  #pending-orders {
+    float: right;
+    margin: 1%;
+  }
+
+  #order-history {
+    float: right;
+    margin-right: 1%;
+  }
+
+  #client-dash #client-info {
+    float: left;
+    height: 70%;
+    width: 33%;
+    margin-left: 1%;
+    margin-top: 1%;
+  }
+
+
+  #client-dash #pending-orders {
+    width: 64%;
+    float: right;
+  }
+
+
+  #client-dash #order-history {
+    width: 64%;
+    float: right;
+  }
+
+  #client-dash #order-button {
+    width: 33% !important;
+    margin-bottom: 0;
+  }
 }
