@@ -1,6 +1,8 @@
 from django import forms
 from . import models
 from django.contrib.auth.models import User, Group
+from django.core.mail import send_mail
+from logic.settings import EMAIL_HOST_USER
 
 
 class ClientCreationForm(forms.Form):
@@ -29,6 +31,15 @@ class ClientCreationForm(forms.Form):
         label='Enter the number of cars your driveway can hold'
     )
 
+    def clean_username(self):
+        existing = User.objects.filter(username=self.cleaned_data['username']).all()
+        if len(existing) != 0:
+            raise forms.ValidationError(
+                'An account with this username already exists.',
+                code='existing_username'
+            )
+        return self.cleaned_data['username']
+
     def clean_password_2(self):
         password_1 = self.cleaned_data.get('password_1')
         password_2 = self.cleaned_data.get('password_2')
@@ -50,6 +61,12 @@ class ClientCreationForm(forms.Form):
         user.save()
         client_group = Group.objects.get_or_create(name='client')[0]
         user.groups.add(client_group)
+        fname = user.first_name
+        lname = user.last_name
+        subject = 'Your PlowMe Account Has Been Created'
+        message = ('Hi ' + str(fname) + ' ' + str(lname) + ', Your PlowMe client account has just been created successfully. If this was not you, please respond to this email so we can deactivate the account.')
+        recipient = user.email
+        send_mail(subject, message, EMAIL_HOST_USER, [recipient])
         return user
 
     def _create_address(self):
@@ -120,6 +137,12 @@ class ContractorCreationForm(forms.Form):
         user.save()
         contractor_group = Group.objects.get_or_create(name='contractor')[0]
         user.groups.add(contractor_group)
+        fname = user.first_name
+        lname = user.last_name
+        subject = 'Your PlowMe Account Has Been Created'
+        message = ('Hi ' + str(fname) + ' ' + str(lname) + ', Your PlowMe contractor account has just been created successfully. If this was not you, please respond to this email so we can deactivate the account.')
+        recipient = user.email
+        send_mail(subject, message, EMAIL_HOST_USER, [recipient])
         return user
 
     def create_contractor(self):

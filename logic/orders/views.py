@@ -5,6 +5,8 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.db.models import Q
+from django.core.mail import send_mail
+from logic.settings import EMAIL_HOST_USER
 
 
 
@@ -56,6 +58,14 @@ def finish_order(request, id):
         response.status_code = 406
     order.status= 'F'
     order.save()
+    subject = 'Your PlowMe Order Has Been Completed'
+    message = 'Your recent order on PlowMe has been just been marked as finished by one of our valued contractors. Your driveway should now be plowed. If there were any issues with this order, please let us know by responding to this email.'
+    recipient = order.client.email
+    send_mail(subject, message, EMAIL_HOST_USER, [recipient])
+    subject = 'You Have Finished Your Order'
+    message = 'You have completed an order! On your dashboard, please feel free to accept any other orders in your area.'
+    recipient = order.contractor.email
+    send_mail(subject, message, EMAIL_HOST_USER, [recipient])
     serializer = serializers.OrderSerializer(order, context={'request': request})
     return Response(serializer.data)
 
@@ -75,6 +85,14 @@ def accept_order(request, id):
     order.status = 'S'
     order.contractor = request.user
     order.save()
+    subject = 'Your PlowMe Order Has Been Accepted'
+    message = 'Your recent order on PlowMe has been just been accepted by one of our valued contractors. Your driveway is now set to be plowed at your scheduled time.'
+    recipient = order.client.email
+    send_mail(subject, message, EMAIL_HOST_USER, [recipient])
+    subject = 'You Have Accepted An Order'
+    message = 'You have accepted an order and may now procede to the clients driveway. On your dashboard, click the Navigate button to recieve directions on how to get to the clients property'
+    recipient = order.contractor.email
+    send_mail(subject, message, EMAIL_HOST_USER, [recipient])
     serializer = serializers.OrderSerializer(order, context={'request': request})
     return Response(serializer.data)
 

@@ -40,7 +40,13 @@ class Address(models.Model):
     zip = models.IntegerField()
 
     def __str__(self):
-        return f'{self.street_1}, {self.street_2}, {self.street_3}, {self.city}, {self.state} {self.zip}'
+        retval = self.street_1
+        if self.street_2 is not None and self.street_2 != '':
+            retval += f', {self.street_2}'
+        if self.street_3 is not None and self.street_3 != '':
+            retval += f', {self.street_3}'
+        return retval + f', {self.city}, {self.state} {self.zip}'
+
 
 
 class ClientProfile(models.Model):
